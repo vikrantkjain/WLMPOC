@@ -17,13 +17,13 @@ def ArrayList<MyFlavor> myFlavors = new ArrayList<>();
     parsedProjectXml.'CustomerConfiguration'.each{ config ->
 
         MyFlavor f = new MyFlavor();
-        f.flavorname = config.ConfigurableText[0].AboutUsCopy[0].text();
-        f.basename = config.ConfigurableText[0].AboutUsCopy[0].text();
-        f.appid = "com."+config.ConfigurableText[0].AboutUsCopy[0].text();
-        f.appname=config.ConfigurableText[0].AboutUsCopy[0].text();
+        f.flavorname = config.CustomerName.text();
+        f.basename = config.CustomerName.text();
+        f.appid = "com.carwash"+config.CustomerCode.text();
+        f.appname=config.CustomerName.text();
         f.color_primary=config.ConfigurableColor[0].BackgroundColor[0].text();
         f.button_color=config.ConfigurableColor[0].ButtonColor[0].text();
-        f.description=config.ConfigurableText[0].Descriptionofservicesoffered[0].text();
+        f.description="This is "+config.CustomerName.text();
         myFlavors.add(f);
 
     }
@@ -77,12 +77,6 @@ android {
 
         }
     }
-	  lintOptions {
-        abortOnError false
-    }
-	 aaptOptions {  
-                cruncherEnabled = false  
-            } 
 }
 
 
