@@ -174,8 +174,7 @@ public class ScanActivity extends AppCompatActivity {
     /* GENERATE QR CODE FROM RESULT */
 
     private static final int TYPE_QR = 0, TYPE_BAR = 1;
-    private static int TYPE = TYPE_QR;
-
+    private static int TYPE = TYPE_BAR;
     private void generateCode(final String result) {
 
         CodeGenerator codeGenerator = new CodeGenerator();
