@@ -16,4 +16,6 @@
     <!--white label String -->
 
     <string name="scan">Scan Barcode</string>
+    <string name="scanned_result">Scanned result:</string>
+    <string name="result">Result</string>
 </resources>

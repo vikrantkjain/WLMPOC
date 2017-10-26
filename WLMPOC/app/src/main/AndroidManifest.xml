@@ -22,6 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		 <activity
+            android:name=".activity.ScanActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activity.ResultActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

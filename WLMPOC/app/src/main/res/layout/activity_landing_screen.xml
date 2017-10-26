@@ -48,7 +48,7 @@
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin" />
     <TextView
-        android:id="@+id/text_scan"
+        android:id="@+id/textViewScanBarCode"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/scan"
