@@ -1,16 +1,23 @@
 package com.wlmpoc.activity;
 
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.wlmpoc.R;
 import com.wlmpoc.data.preference.AppPreference;
 import com.wlmpoc.data.preference.PrefKey;
-import com.wlmpoc.utility.ActivityUtils;
+import com.wlmpoc.utility.CodeGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +28,12 @@ public class ScanActivity extends AppCompatActivity {
 
     private ZXingScannerView zXingScannerView;
     private int camId, frontCamId, rearCamId;
-    private ViewGroup contentFrame;
+    private FrameLayout contentFrame;
     private ArrayList<Integer> mSelectedIndices;
+    private RelativeLayout rlBottomView;
+    private DisplayMetrics displaymetrics;
+    private ImageView outputBitmap;
+    private TextView outputText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +41,12 @@ public class ScanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scan);
 
         camId = AppPreference.getInstance(this).getInteger(PrefKey.CAM_ID); // back camera by default
-        if(camId == -1) {
+        if (camId == -1) {
             camId = rearCamId;
         }
         loadCams();
         zXingScannerView = new ZXingScannerView(this);
+
         setupFormats();
         initView();
         initListener();
@@ -42,7 +54,31 @@ public class ScanActivity extends AppCompatActivity {
 
 
     private void initView() {
-        contentFrame = (ViewGroup)findViewById(R.id.content_frame);
+
+        contentFrame = (FrameLayout) findViewById(R.id.content_frame);
+        rlBottomView = (RelativeLayout) findViewById(R.id.rlBottomView);
+        outputBitmap = (ImageView) findViewById(R.id.outputBitmap);
+        outputText = (TextView) findViewById(R.id.outputText);
+
+        displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+
+        FrameLayout.LayoutParams param = new FrameLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                (int) (displaymetrics.heightPixels * 40) / 100);
+        zXingScannerView.setLayoutParams(param);
+
+        LinearLayout.LayoutParams param_content_frame = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                (int) (displaymetrics.heightPixels * 40) / 100);
+        contentFrame.setLayoutParams(param_content_frame);
+
+        LinearLayout.LayoutParams param_bottom_view = new LinearLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                (int) (displaymetrics.heightPixels * 60) / 100);
+        rlBottomView.setLayoutParams(param_bottom_view);
+
+        RelativeLayout.LayoutParams param_output = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,
+                (int) (displaymetrics.heightPixels * 30) / 100);
+        outputBitmap.setLayoutParams(param_output);
+
 
     }
 
@@ -59,24 +95,29 @@ public class ScanActivity extends AppCompatActivity {
 
                 zXingScannerView.resumeCameraPreview(this);
 
-                ActivityUtils.getInstance().invokeActivity(ScanActivity.this, ResultActivity.class, false);
+                String lastResult = previousResult.get(previousResult.size() - 1);
+                if (lastResult.length() != 0) {
+                    generateCode(lastResult.toString());
+                }
+
+                //ActivityUtils.getInstance().invokeActivity(ScanActivity.this, ResultActivity.class, false);
             }
         });
     }
 
     public void setupFormats() {
         List<BarcodeFormat> formats = new ArrayList<>();
-        if(mSelectedIndices == null || mSelectedIndices.isEmpty()) {
+        if (mSelectedIndices == null || mSelectedIndices.isEmpty()) {
             mSelectedIndices = new ArrayList<>();
-            for(int i = 0; i < ZXingScannerView.ALL_FORMATS.size(); i++) {
+            for (int i = 0; i < ZXingScannerView.ALL_FORMATS.size(); i++) {
                 mSelectedIndices.add(i);
             }
         }
 
-        for(int index : mSelectedIndices) {
+        for (int index : mSelectedIndices) {
             formats.add(ZXingScannerView.ALL_FORMATS.get(index));
         }
-        if(zXingScannerView != null) {
+        if (zXingScannerView != null) {
             zXingScannerView.setFormats(formats);
         }
     }
@@ -124,9 +165,35 @@ public class ScanActivity extends AppCompatActivity {
             }
 
             zXingScannerView.startCamera(camId);
-           // zXingScannerView.setFlash(isFlash);
-           //zXingScannerView.setAutoFocus(isAutoFocus);
+            // zXingScannerView.setFlash(isFlash);
+            //zXingScannerView.setAutoFocus(isAutoFocus);
+
         }
+    }
+
+    /* GENERATE QR CODE FROM RESULT */
+
+    private static final int TYPE_QR = 0, TYPE_BAR = 1;
+    private static int TYPE = TYPE_QR;
+
+    private void generateCode(final String result) {
+
+        CodeGenerator codeGenerator = new CodeGenerator();
+        if (TYPE == TYPE_BAR) {
+            codeGenerator.generateBarFor(result);
+        } else {
+            codeGenerator.generateQRFor(result);
+        }
+        codeGenerator.setResultListener(new CodeGenerator.ResultListener() {
+            @Override
+            public void onResult(Bitmap bitmap) {
+
+                outputBitmap.setImageBitmap(bitmap);
+                outputText.setText(result);
+
+            }
+        });
+        codeGenerator.execute();
     }
 
 }

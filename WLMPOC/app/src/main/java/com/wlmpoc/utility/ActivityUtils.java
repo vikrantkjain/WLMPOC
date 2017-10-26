@@ -5,7 +5,7 @@ import android.content.Intent;
 
 
 /**
- * Created by Dheeraj on 24/10/2017.
+ * Created by Codiant on 24/10/2017.
  */
 public class ActivityUtils {
 

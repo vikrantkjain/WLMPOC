@@ -1,7 +1,7 @@
 package com.wlmpoc.data.constant;
 
 /**
- * Created by Dheeraj Giri on 24/10/2017.
+ * Created by Codiant on 24/10/2017.
  */
 public class Constants {
 
