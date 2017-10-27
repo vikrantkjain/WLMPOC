@@ -46,7 +46,8 @@ public class ScanActivity extends AppCompatActivity {
         }
         loadCams();
         zXingScannerView = new ZXingScannerView(this);
-
+        zXingScannerView.getFormats().remove(BarcodeFormat.MAXICODE);
+        zXingScannerView.getFormats().remove(BarcodeFormat.QR_CODE);
         setupFormats();
         initView();
         initListener();
