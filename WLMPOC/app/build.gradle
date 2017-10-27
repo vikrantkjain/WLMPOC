@@ -19,7 +19,7 @@ def ArrayList<MyFlavor> myFlavors = new ArrayList<>();
 
         MyFlavor f = new MyFlavor();
         f.flavorname = config.CustomerName.text();
-        f.basename = config.CustomerName.text();
+        f.basename = config.CustomerName.text()+config.CustomerCode.text();
         f.appid = "com.carwash"+config.CustomerCode.text();
         f.appname=config.CustomerName.text();
         f.color_primary=config.ConfigurableColor[0].HeaderColor[0].text();
