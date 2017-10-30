@@ -18,7 +18,7 @@ def ArrayList<MyFlavor> myFlavors = new ArrayList<>();
     parsedProjectXml.'CustomerConfiguration'.each{ config ->
 
         MyFlavor f = new MyFlavor();
-        f.flavorname = config.CustomerName.text();
+        f.flavorname = config.CustomerCode.text()+"_"+config.CustomerName.text();
         f.basename = config.CustomerName.text()+config.CustomerCode.text();
         f.appid = config.AppPackageName.text();
         f.appname=config.CustomerName.text();
