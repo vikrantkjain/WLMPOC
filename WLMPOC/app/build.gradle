@@ -26,6 +26,7 @@ def ArrayList<MyFlavor> myFlavors = new ArrayList<>();
         f.button_color=config.ConfigurableColor[0].ButtonColor[0].text();
         f.color_primaryDark=config.ConfigurableColor[0].NotificationBarColor[0].text();
         f.description="This is "+config.CustomerName.text();
+	// f.description=config.ConfigurableTexts[0].AboutUs[0].text();
         myFlavors.add(f);
 
     }
