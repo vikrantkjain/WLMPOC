@@ -7,6 +7,7 @@ class MyFlavor {
     public String color_primary;
     public String button_color;
     public String description
+    public String welcome_message
     public String color_primaryDark
 }
 
@@ -25,8 +26,8 @@ def ArrayList<MyFlavor> myFlavors = new ArrayList<>();
         f.color_primary=config.ConfigurableColor[0].HeaderColor[0].text();
         f.button_color=config.ConfigurableColor[0].ButtonColor[0].text();
         f.color_primaryDark=config.ConfigurableColor[0].NotificationBarColor[0].text();
-        f.description="This is "+config.CustomerName.text();
-	// f.description=config.ConfigurableTexts[0].AboutUs[0].text();
+      	f.welcome_message=config.ConfigurableTexts[0].WelcomeMessage[0].text();
+	f.description=config.ConfigurableTexts[0].AboutUs[0].text();
         myFlavors.add(f);
 
     }
@@ -65,6 +66,7 @@ android {
                 applicationId = "$f.appid"
                 resValue  'string', 'app_name', "\"" + "$f.appname" + "\""
                 resValue  'string', 'description', "\"" + "$f.description" + "\""
+		resValue  'string', 'welcome', "\"" + "$f.welcome_message" + "\""
                 resValue  'color', 'colorPrimary', "$f.color_primary"
                 resValue  'color', 'colorPrimaryDark', "$f.color_primaryDark"
                 resValue  'color', 'button_color', "$f.button_color"
