@@ -26,8 +26,8 @@ def ArrayList<MyFlavor> myFlavors = new ArrayList<>();
         f.color_primary=config.ConfigurableColor[0].HeaderColor[0].text();
         f.button_color=config.ConfigurableColor[0].ButtonColor[0].text();
         f.color_primaryDark=config.ConfigurableColor[0].NotificationBarColor[0].text();
-      	f.welcome_message=config.ConfigurableTexts[0].WelcomeMessage[0].text();
-	f.description=config.ConfigurableTexts[0].AboutUs[0].text();
+      	f.welcome_message=config.ConfigurableText[0].WelcomeMessage[0].text();
+	f.description=config.ConfigurableText[0].AboutUs[0].text();
         myFlavors.add(f);
 
     }
