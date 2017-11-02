@@ -14,7 +14,7 @@
         android:id="@+id/rlBottomView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite">
+        android:background="@color/background_color">
 
         <ImageView
             android:id="@+id/outputBitmap"
